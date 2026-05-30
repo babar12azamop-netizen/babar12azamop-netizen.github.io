@@ -1,38 +1,39 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SNAKE KILLA</title>
     <style>
-        body { background: #07080c; color: #fff; text-align: center; font-family: sans-serif; }
-        canvas { border: 2px solid #00ffcc; background: #1e2235; display: block; margin: 10px auto; }
-        .controls { display: grid; grid-template-columns: repeat(3, 60px); gap: 10px; justify-content: center; }
-        button { padding: 15px; font-size: 20px; background: #00ffcc; border: none; border-radius: 5px; }
+        body { background: #000; color: #fff; text-align: center; margin: 0; padding: 0; }
+        canvas { border: 2px solid #00ff00; background: #222; display: block; margin: 20px auto; }
+        .btn { padding: 20px; font-size: 20px; margin: 5px; }
     </style>
 </head>
 <body>
     <h1>SNAKE KILLA 🐍</h1>
-    <canvas id="gameCanvas" width="300" height="300"></canvas>
-    <div class="controls">
-        <div></div><button onclick="dir='UP'">🔼</button><div></div>
-        <button onclick="dir='LEFT'">◀️</button><button onclick="dir='DOWN'">🔽</button><button onclick="dir='RIGHT'">▶️</button>
+    <canvas id="game" width="300" height="300"></canvas>
+    <div>
+        <button class="btn" onclick="dir='UP'">🔼</button><br>
+        <button class="btn" onclick="dir='LEFT'">◀️</button>
+        <button class="btn" onclick="dir='DOWN'">🔽</button>
+        <button class="btn" onclick="dir='RIGHT'">▶️</button>
     </div>
     <script>
-        const canvas = document.getElementById("gameCanvas");
+        const canvas = document.getElementById("game");
         const ctx = canvas.getContext("2d");
-        let snake = [{x: 10, y: 10}], food = {x: 15, y: 15}, dir = "RIGHT";
-        function gameLoop() {
-            let head = {x: snake[0].x, y: snake[0].y};
-            if(dir === "UP") head.y--; if(dir === "DOWN") head.y++;
-            if(dir === "LEFT") head.x--; if(dir === "RIGHT") head.x++;
-            if(head.x === food.x && head.y === food.y) { food = {x: Math.floor(Math.random()*15), y: Math.floor(Math.random()*15)}; } else { snake.pop(); }
-            snake.unshift(head);
-            ctx.fillStyle = "#1e2235"; ctx.fillRect(0,0,300,300);
-            ctx.fillStyle = "red"; ctx.fillRect(food.x*20, food.y*20, 18, 18);
-            ctx.fillStyle = "#00ffcc";
-            snake.forEach(part => ctx.fillRect(part.x*20, part.y*20, 18, 18));
-            setTimeout(gameLoop, 150);
+        let s = [{x:10,y:10}], f = {x:15,y:15}, dir = "RIGHT";
+        function loop() {
+            let h = {x: s[0].x, y: s[0].y};
+            if(dir=="UP") h.y--; if(dir=="DOWN") h.y++; if(dir=="LEFT") h.x--; if(dir=="RIGHT") h.x++;
+            if(h.x==f.x && h.y==f.y) f={x:Math.floor(Math.random()*15),y:Math.floor(Math.random()*15)}; else s.pop();
+            s.unshift(h);
+            ctx.fillStyle="#222"; ctx.fillRect(0,0,300,300);
+            ctx.fillStyle="red"; ctx.fillRect(f.x*20, f.y*20, 18, 18);
+            ctx.fillStyle="lime"; s.forEach(p => ctx.fillRect(p.x*20, p.y*20, 18, 18));
+            setTimeout(loop, 150);
         }
-        gameLoop();
+        loop();
     </script>
 </body>
 </html>
